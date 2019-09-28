@@ -14,4 +14,6 @@ Route::get('/', function () {
     return view('welcome');
 
 });
-Route::view('duong-dan','welcome');
+Route::get('starter',function(){
+	return view('starter');
+});
