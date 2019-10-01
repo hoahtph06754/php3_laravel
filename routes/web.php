@@ -9,11 +9,27 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Models\User;
+use App\Models\Post;
+
 Route::get('/', function () {
 	// dd("hoa");
     return view('welcome');
 
 });
 Route::get('starter',function(){
-	return view('starter');
+    $users=factory(User::class, 10)
+    ->make()
+    ->toArray();
+	return view('starter',[
+		'users'=>$users
+	]);
+});
+Route::get('post',function(){
+    $posts=factory(Post::class, 10)
+    ->make()
+    ->toArray();
+	return view('post',[
+		'posts'=>$posts
+	]);
 });

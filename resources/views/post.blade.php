@@ -1,6 +1,6 @@
 @extends('layouts')
 @section('title')
-    Starter
+    Post
 @endsection
 
 @section('content')
@@ -20,21 +20,17 @@
 
     <!-- Main content -->
     <section class="content container-fluid">
-        @if(empty($users))
+        @if(empty($posts))
     <p>no data</p>
       @else
         <table class="table">
           <thead>
-            <th>name</th>
-            <th>birthday</th>
-            <th>email</th>
+            <th>Content</th>
           </thead>
           <tbody>
-            @foreach($users as $user)
+            @foreach($posts as $post)
               <tr> 
-                <td>{{ $user['name'] }}</td>
-                <td>{{ $user['birthday'] }}</td>
-                <td>{{ $user['email'] }}</td>
+                <td>{{ $post['content'] }}</td>
               </tr>
             @endforeach
           </tbody>

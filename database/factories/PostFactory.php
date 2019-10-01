@@ -2,13 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Posts;
+use App\Models\Post;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
-$factory->define(Posts::class, function (Faker $faker) {
+$factory->define(Post::class, function (Faker $faker) {
     return [
         'content'=>$faker->sentence(),
-        'user_id'=>$faker->randomDigit()
+        'user_id'=>$faker->randomDigitNot(0)
     ];
 });
