@@ -20,21 +20,32 @@
 
     <!-- Main content -->
     <section class="content container-fluid">
+      <a href="{{ route('users.create') }}" class="btn btn-success">create</a>
         @if(empty($users))
     <p>no data</p>
       @else
         <table class="table">
           <thead>
-            <th>name</th>
-            <th>birthday</th>
-            <th>email</th>
+            <th>Name</th>
+            <th>Birthday</th>
+            <th>Email</th>
+            <th>Posts</th>
           </thead>
           <tbody>
             @foreach($users as $user)
+
               <tr> 
-                <td>{{ $user['name'] }}</td>
+                <td><a href="{{ route('users.show',['id'=>$user['id']]) }}">{{ $user['name'] }}</a></td>
                 <td>{{ $user['birthday'] }}</td>
                 <td>{{ $user['email'] }}</td>
+                <td>{{ count($user['posts']) }}</td>
+                <td><a href="{{ route('users.edit',['id'=>$user['id']]) }}" class="btn btn-primary">update</a></td>
+                <td>
+                  <form action="{{ route('users.delete',['id'=>$user['id']]) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">delete</button>
+                  </form>
+                </td>
               </tr>
             @endforeach
           </tbody>

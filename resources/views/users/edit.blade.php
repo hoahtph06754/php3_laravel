@@ -1,10 +1,5 @@
 @extends('layouts')
-@section('title')
-    Post
-@endsection
-
 @section('content')
-<!-- code -->
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -20,27 +15,27 @@
 
     <!-- Main content -->
     <section class="content container-fluid">
-        @if(empty($posts))
-    <p>no data</p>
-      @else
-        <table class="table">
-          <thead>
-            <th>Content</th>      
-            <th>User</th>  
-          </thead>
-          <tbody>
-            @foreach($posts as $post)
-              <tr> 
-                <td>{{ $post['content'] }}</td>
-                <td>{{ $post['user']['name'] }}</td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      @endif
+
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
+
+		<form action="{{ route('users.update',['id'=>$user->id]) }}" method="POST">
+      @csrf
+		 	<div>
+				<label>Name</label>
+				<input type="text" name="name" value="{{ $user->name }}" />
+			</div>
+			<div>
+				<label>Email</label>
+				<input type="text" name="email" value="{{ $user->email }}"/>
+			</div>
+			<div>
+				<label>Birthday</label>
+				<input type="date" name="birthday" value="{{ $user->birthday }}"/>
+			</div>
+			<button type="submit" class="btn btn-success">Submit</button>
+		</form>
 
     </section>
     <!-- /.content -->

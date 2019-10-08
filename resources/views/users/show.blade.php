@@ -1,10 +1,5 @@
 @extends('layouts')
-@section('title')
-    Post
-@endsection
-
 @section('content')
-<!-- code -->
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -20,28 +15,14 @@
 
     <!-- Main content -->
     <section class="content container-fluid">
-        @if(empty($posts))
-    <p>no data</p>
-      @else
-        <table class="table">
-          <thead>
-            <th>Content</th>      
-            <th>User</th>  
-          </thead>
-          <tbody>
-            @foreach($posts as $post)
-              <tr> 
-                <td>{{ $post['content'] }}</td>
-                <td>{{ $post['user']['name'] }}</td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      @endif
+
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
 
+    <p>Name:  {{ $user->name }}</p>
+    <p>Email:   {{ $user->email }}</p>
+		<p>Birthday:  {{ $user->birthday }}</p>
     </section>
     <!-- /.content -->
   </div>
