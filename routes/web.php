@@ -14,88 +14,51 @@ use App\Models\Post;
 // use Faker\Generator as Faker;
 use Illuminate\Http\Request;
 
+
 Route::get('/', function () {
 	// dd("hoa");
     return view('welcome');
-
 });
-Route::get('users',function(){
-    // $users=factory(User::class, 10)
-    // ->make()
-    // ->toArray();
-    $users=User::all();
-
-    foreach ($users as $user) {
-    	$user->posts;
-    	// dd($user->posts->count());
-    }
-	return view('starter',[
-		'users'=>$users->toArray(),
-	]);
-})->name('users.index');
-
-
-
+// })->middleware('check_admin_role');
 
 Route::get('post',function(){
-    // $posts=factory(Post::class, 10)
-    // ->make()
-    // ->toArray();
-    $posts=Post::all();
+	    // $posts=factory(Post::class, 10)
+	    // ->make()
+	    // ->toArray();
+	    $posts=Post::all();
 
-    foreach ($posts as $post) {
-    	$post->user;
-    }
-    // $posts=$posts->toArray()
-    // dd($posts[0]['user']['name']);
-	return view('post',[
-		'posts'=>$posts->toArray(),
-	]);
+	    foreach ($posts as $post) {
+	    	$post->user;
+	    }
+	    // $posts=$posts->toArray()
+	    // dd($posts[0]['user']['name']);
+		return view('post',[
+			'posts'=>$posts->toArray(),
+		]);
 });
-Route::post('users/store', function(Request $request){
-	$data=$request->all();
-	$user=User::create([
-		'name' => $data['name'],
-        'email' => $data['email'],
-        'birthday' => $data['birthday'],
-        'password' => bcrypt('123456'),
-	]);
-	return redirect()->route('users.index');
-})->name('users.store');
+
+Route::group([
+	'prefix' =>'users',
+	'as'=>'users.',
+	'middleware' => 'check_admin_role',
+], function ()
+{
+	//routes
+
+	Route::get('/', 'UserController@index')->name('index');
+
+	Route::post('store', 'UserController@store')->name('store');
 
 
-Route::view('users/create','users/create')->name('users.create');
+	Route::get('create','UserController@create')->name('create');
 
-Route::get('users/{id}',function($id){
-   	$user = User::find($id);
-   	
-   	return view('users.show',['user'=>$user]);
-})->name('users.show');
+	Route::get('{id}', 'UserController@show')->name('show');
 
-Route::get('user/edit/{id}', function($id){
-	$user =User::find($id);
-	// $user->name='Mon';
-	// $user->email='hoayt99@gmail.com';
-	// $user->save();
+	Route::get('edit/{id}','UserController@edit')->name('edit');
 
-	return view('users.edit',['user'=>$user]);
-})->name('users.edit');
+	Route::post('update/{id}', 'UserController@update')->name('update');
 
-Route::post('user/update/{id}', function(Request $request,$id){
-	$user=User::find($id);
-	$user->name=$request->name;
-	$user->email=$request->email;
-	$user->birthday=$request->birthday;
-	$user->save();
-
-	return redirect()->route('users.index');
-})->name('users.update');
-
-Route::post('user/delete/{id}', function($id){
-	$user=User::find($id);
-	$post=Post::where('user_id',$id);
-	$post->delete();
-	$user->delete(); 
-	return redirect()->route('users.index');
-
-})->name('users.delete');
+	Route::post('delete/{id}','UserController@destroy')->name('delete');
+});
+Route::get('login','AuthController@getLoginForm')->name('auth.login_form');
+Route::post('login','AuthController@login')->name('auth.login');
